@@ -93,6 +93,13 @@ class Store {
       cart: [...this.state.cart.filter(item => item.code !== newItem.code), newItem]
     })
   }
+
+  removeFromCart(item) {
+    this.setState({
+      ...this.state,
+      cart: this.state.cart.filter(itemInCart => item.code !== itemInCart.code)
+    })
+  }
 }
 
 export default Store;

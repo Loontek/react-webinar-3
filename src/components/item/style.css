@@ -15,8 +15,13 @@
 }
 
 .Item-title {
-  width: 100%;
+  flex-grow: 1;
   padding: 20px 10px;
+}
+
+.Item-info {
+  display: flex;
+  gap: 70px;
 }
 
 .Item-actions {
