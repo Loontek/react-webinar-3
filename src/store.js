@@ -84,21 +84,56 @@ class Store {
     })
   }
 
-  addToCart(item) {
-    const itemInCart = this.state.cart.find(itemInCart => itemInCart.code === item.code)
-    const newItem = itemInCart ? {...itemInCart, count: itemInCart.count + 1} : {...item, count: 1}
+  addToCart(code) {
+    const itemInCart = this.state.cart.products.find(itemInCart => itemInCart.code === code);
+    const itemInList = this.state.list.find(item => item.code === code);
+    const newItem = itemInCart
+      ? {...itemInCart, count: itemInCart.count + 1}
+      : {...itemInList, count: 1}
 
     this.setState({
       ...this.state,
-      cart: [...this.state.cart.filter(item => item.code !== newItem.code), newItem]
+      cart: {
+        ...this.state.cart,
+        products: [...this.state.cart.products.filter(item => item.code !== newItem.code), newItem],
+      }
+    })
+
+    this.calcTotalPrice()
+    this.calcProductsAmount()
+  }
+
+  calcProductsAmount() {
+    this.setState({
+      ...this.state,
+      cart: {
+        ...this.state.cart,
+        productsCount: this.state.cart.products.length
+      }
     })
   }
 
-  removeFromCart(item) {
+  calcTotalPrice() {
     this.setState({
       ...this.state,
-      cart: this.state.cart.filter(itemInCart => item.code !== itemInCart.code)
+      cart: {
+        ...this.state.cart,
+        totalPrice: this.state.cart.products.reduce((accumulator, item) => accumulator += item.price * item.count, 0)
+      }
     })
+  }
+
+  removeFromCart(code) {
+    this.setState({
+      ...this.state,
+      cart: {
+        ...this.state.cart,
+        products: this.state.cart.products.filter(itemInCart => code !== itemInCart.code)
+      }
+    })
+
+    this.calcTotalPrice()
+    this.calcProductsAmount()
   }
 }
 

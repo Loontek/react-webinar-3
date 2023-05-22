@@ -1,14 +1,14 @@
 import React from "react";
-import PropTypes from 'prop-types';
-import './style.css';
-import {calcCartAmount} from "../../utils";
+import {convertPrice} from "../../utils";
 import PrimaryButton from "../primary-button";
+import PropTypes from "prop-types";
+import './style.css';
 
-function Controls({cart, withButton, withDescription, onClick}){
+function Controls({totalPrice, productsCount, withButton, withDescription, onClick}){
   return (
     <div className='Controls'>
       {withDescription &&
-        <span>В корзине: <b>{calcCartAmount(cart)}</b></span>
+        <span>В корзине: <b>{productsCount ? `${productsCount} / ${convertPrice(totalPrice)}` : 'пусто'}</b></span>
       }
       {withButton &&
         <PrimaryButton description={'Перейти'} onClick={onClick}/>
@@ -18,9 +18,8 @@ function Controls({cart, withButton, withDescription, onClick}){
 }
 
 Controls.propTypes = {
-  cart: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.number
-  })).isRequired,
+  totalPrice: PropTypes.number,
+  productsCount: PropTypes.number,
   withButton: PropTypes.bool,
   withDescription: PropTypes.bool,
   onClick: PropTypes.func

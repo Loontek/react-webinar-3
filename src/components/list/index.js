@@ -1,14 +1,13 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import Item from "../item";
 import './style.css';
 
-function List({list, onClick, type}){
+function List({list, elem, onClick}){
   return (
-    <div className='List'>{
-      list.map(item =>
+    <div className='List'>
+      {list.map(item =>
         <div key={item.code} className='List-item'>
-          <Item item={item} onClick={onClick} withItemAmount={type === 'cart'} type={type}/>
+          {React.cloneElement(elem, { item, onClick })}
         </div>
       )}
     </div>
@@ -19,8 +18,8 @@ List.propTypes = {
   list: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.number
   })).isRequired,
+  elem: PropTypes.node.isRequired,
   onClick: PropTypes.func,
-  type: PropTypes.string
 };
 
 List.defaultProps = {

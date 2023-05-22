@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import {convertPrice, plural} from "../../utils";
+import {convertPrice} from "../../utils";
 import './style.css';
 import PrimaryButton from "../primary-button";
 
-function Item({ item, onClick, withItemAmount, type }){
+function Item({ item, onClick, }){
   return (
     <div className={'Item'}>
       <div className='Item-code'>{item.code}</div>
@@ -12,17 +12,10 @@ function Item({ item, onClick, withItemAmount, type }){
         {item.title}
       </div>
       <div className={'Item-info'}>
-        <div className={'Item-price'}>
-          {convertPrice(item.price)}
-        </div>
-        {withItemAmount &&
-          <div>
-            {item.count} шт
-          </div>
-        }
+        {convertPrice(item.price)}
       </div>
       <div className='Item-actions'>
-        <PrimaryButton description={type === 'cart' ? 'Удалить' : 'Добавить'} onClick={() => onClick(item)}/>
+        <PrimaryButton description={'Добавить'} onClick={() => onClick(item.code)}/>
       </div>
     </div>
   );
@@ -35,9 +28,7 @@ Item.propTypes = {
     selected: PropTypes.bool,
     count: PropTypes.number
   }).isRequired,
-  onClick: PropTypes.func,
-  withItemAmount: PropTypes.bool,
-  type: PropTypes.string
+  onClick: PropTypes.func
 };
 
 Item.defaultProps = {

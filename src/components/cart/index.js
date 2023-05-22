@@ -4,8 +4,9 @@ import Head from "../head";
 import PageLayout from "../page-layout";
 import List from "../list";
 import Controls from "../controls";
-import {calcTotalPrice} from "../../utils";
 import PropTypes from "prop-types";
+import CartItem from "../cart-item.js";
+import {convertPrice} from "../../utils";
 import './style.css'
 
 const Cart = ({cart, isShown, togglePopUp, onRemoveFromCart}) => {
@@ -14,16 +15,16 @@ const Cart = ({cart, isShown, togglePopUp, onRemoveFromCart}) => {
       <div className={'Cart'}>
         <PageLayout>
           <Head title={'Корзина'} withButton onClick={togglePopUp}/>
-          <Controls cart={cart}/>
-          <List list={cart} type={'cart'} onClick={onRemoveFromCart}/>
+          <Controls totalPrice={cart.totalPrice} productsCount={cart.productsCount}/>
+          <List list={cart.products} elem={<CartItem/>} onClick={onRemoveFromCart}/>
           <span className={'Cart-total-price'} style={{
-            justifyContent: !cart.length ? 'center' : 'flex-end'
+            justifyContent: !cart.productsCount ? 'center' : 'flex-end'
           }}>
-            {cart.length
+            {cart.productsCount
               ?
               <>
                 <b>Итого</b>
-                <b>{calcTotalPrice(cart)}</b>
+                <b>{convertPrice(cart.totalPrice)}</b>
               </>
               :
               <b>Корзина пуста</b>
@@ -36,9 +37,7 @@ const Cart = ({cart, isShown, togglePopUp, onRemoveFromCart}) => {
 };
 
 Cart.propTypes = {
-  cart: PropTypes.arrayOf(PropTypes.shape({
-    code: PropTypes.number
-  })).isRequired,
+  cart: PropTypes.object,
   isShown: PropTypes.bool,
   togglePopUp: PropTypes.func,
   onRemoveFromCart: PropTypes.func

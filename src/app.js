@@ -3,8 +3,8 @@ import List from "./components/list";
 import Controls from "./components/controls";
 import Head from "./components/head";
 import PageLayout from "./components/page-layout";
-import PopUp from "./components/pop-up";
 import Cart from "./components/cart";
+import Item from "./components/item";
 
 /**
  * Приложение
@@ -18,11 +18,11 @@ function App({store}) {
   const cart = store.getState().cart;
 
   const callbacks = {
-    onAddToCart: useCallback((item) => {
-      store.addToCart(item);
+    onAddToCart: useCallback((code) => {
+      store.addToCart(code);
     }, [store]),
-    onRemoveFromCart: useCallback((item) => {
-      store.removeFromCart(item)
+    onRemoveFromCart: useCallback((code) => {
+      store.removeFromCart(code)
     }, [store]),
     togglePopUp: useCallback(() => {
       setIsShown(prevState => !prevState);
@@ -34,8 +34,8 @@ function App({store}) {
       <Cart cart={cart} isShown={isShown} togglePopUp={callbacks.togglePopUp} onRemoveFromCart={callbacks.onRemoveFromCart}/>
       <PageLayout fullscreen>
         <Head title='Магазин'/>
-        <Controls cart={cart} withButton withDescription onClick={callbacks.togglePopUp}/>
-        <List list={list} onClick={callbacks.onAddToCart}/>
+        <Controls totalPrice={cart.totalPrice} productsCount={cart.productsCount} withButton withDescription onClick={callbacks.togglePopUp}/>
+        <List list={list} elem={<Item/>} onClick={callbacks.onAddToCart}/>
       </PageLayout>
     </>
   );
