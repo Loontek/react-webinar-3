@@ -18,7 +18,9 @@ function Main() {
     amount: state.basket.amount,
     sum: state.basket.sum,
     activePage: state.catalog.activePage,
-    pages: state.catalog.pages
+    pages: state.catalog.pages,
+    shop: state.language.variants.shop,
+    activeLanguage: state.language.activeLanguage
   }));
 
   useEffect(() => {
@@ -30,7 +32,8 @@ function Main() {
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
     // Открытие модалки корзины
     openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
-    changePage: useCallback((page) => store.actions.catalog.changePage(page), [store])
+    changePage: useCallback((page) => store.actions.catalog.changePage(page), [store]),
+    changeLanguage: useCallback((lang) => store.actions.language.changeLanguage(lang), [store])
   }
 
   const renders = {
@@ -41,8 +44,8 @@ function Main() {
 
   return (
     <PageLayout>
-      <Head title='Магазин'/>
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum}/>
+      <Head title={select.shop[select.activeLanguage]}/>
+      <BasketTool onOpen={callbacks.openModalBasket} onLangChange={callbacks.changeLanguage} amount={select.amount} sum={select.sum}/>
       <List list={select.list} renderItem={renders.item}/>
       <Pagination activePage={select.activePage} pagesCount={select.pages} onClick={callbacks.changePage}/>
     </PageLayout>

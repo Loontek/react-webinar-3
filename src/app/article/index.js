@@ -27,13 +27,14 @@ function Article() {
   const callbacks = {
     // Добавление в корзину
     addToBasket: useCallback(_id => store.actions.basket.addToBasket(_id), [store]),
-    openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store])
+    openModalBasket: useCallback(() => store.actions.modals.open('basket'), [store]),
+    changeLanguage: useCallback((lang) => store.actions.language.changeLanguage(lang), [store])
   }
 
   return (
     <PageLayout>
       <Head title={select.article.title}/>
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum}/>
+      <BasketTool onOpen={callbacks.openModalBasket} onLangChange={callbacks.changeLanguage} amount={select.amount} sum={select.sum}/>
       <ArticleInfo article={select.article} onAdd={callbacks.addToBasket}/>
     </PageLayout>
   );

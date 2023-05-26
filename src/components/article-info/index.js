@@ -1,9 +1,13 @@
 import React, {memo} from 'react';
 import {numberFormat} from "../../utils";
 import './style.css';
+import useSelector from "../../store/use-selector";
 
 const ArticleInfo = ({ article, onAdd }) => {
-  console.log(article)
+  const select = useSelector(state => ({
+    add: state.language.variants.add,
+    activeLanguage: state.language.activeLanguage
+  }));
 
   return (
     <div className={'Article'}>
@@ -12,7 +16,7 @@ const ArticleInfo = ({ article, onAdd }) => {
       <p>Категория: <b>{article.category}</b></p>
       <p>Год выпуска: <b>{article.edition}</b></p>
       <h2><b>Цена: {numberFormat(article.price)} ₽</b></h2>
-      <button type={"button"} onClick={() => onAdd(article._id)}>Добавить</button>
+      <button type={"button"} onClick={() => onAdd(article._id)}>{select.add[select.activeLanguage]}</button>
     </div>
   );
 };
