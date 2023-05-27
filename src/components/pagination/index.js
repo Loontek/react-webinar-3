@@ -1,6 +1,7 @@
 import React from 'react';
 import './style.css';
 import {createPages} from "../../utils";
+import PropTypes from "prop-types";
 
 const Pagination = ({ activePage, pagesCount, onClick }) => {
   const pages = createPages(pagesCount, activePage);
@@ -22,6 +23,16 @@ const Pagination = ({ activePage, pagesCount, onClick }) => {
       </div>
     </div>
   );
+};
+
+Pagination.propTypes = {
+  activePage: PropTypes.number,
+  pagesCount: PropTypes.number,
+  onClick: PropTypes.func,
+};
+
+Pagination.defaultProps = {
+  onClick: () => {},
 };
 
 export default Pagination;

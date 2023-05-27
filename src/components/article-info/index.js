@@ -1,7 +1,8 @@
 import React, {memo} from 'react';
 import {numberFormat} from "../../utils";
-import './style.css';
 import useSelector from "../../store/use-selector";
+import PropTypes from "prop-types";
+import './style.css';
 
 const ArticleInfo = ({ article, onAdd }) => {
   const select = useSelector(state => ({
@@ -23,6 +24,23 @@ const ArticleInfo = ({ article, onAdd }) => {
       <button type={"button"} onClick={() => onAdd(article._id)}>{select.add[select.activeLanguage]}</button>
     </div>
   );
+};
+
+ArticleInfo.propTypes = {
+  article: PropTypes.shape({
+    _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    title: PropTypes.string,
+    description: PropTypes.string,
+    country: PropTypes.string,
+    category: PropTypes.string,
+    edition: PropTypes.number,
+    price: PropTypes.number,
+  }).isRequired,
+  onAdd: PropTypes.func,
+};
+
+ArticleInfo.defaultProps = {
+  onAdd: () => {},
 };
 
 export default memo(ArticleInfo);
