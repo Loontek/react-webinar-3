@@ -25,7 +25,7 @@ class Article extends StoreModule {
         price: json.result.price,
         edition: json.result.edition
       }
-    }, 'Загружены товары из АПИ');
+    }, 'Загружен товар из АПИ');
 
     this.loadCountry(json.result.madeIn._id);
     this.loadCategory(json.result.category._id);
@@ -40,7 +40,7 @@ class Article extends StoreModule {
         ...this.getState().article,
         country: json.result.title
       }
-    }, 'Загружены товары из АПИ');
+    }, 'Загружена страна из АПИ');
   }
 
   async loadCategory(id) {
@@ -52,7 +52,7 @@ class Article extends StoreModule {
         ...this.getState().article,
         category: json.result.title
       }
-    }, 'Загружены товары из АПИ');
+    }, 'Загружена категория из АПИ');
   }
 }
 

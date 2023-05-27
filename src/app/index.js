@@ -13,22 +13,14 @@ function App() {
   const activeModal = useSelector(state => state.modals.name);
 
   return (
-    <Routes>
-      <Route path={'/'} element={
-        <>
-          <Main/>
-          {activeModal === 'basket' && <Basket/>}
-        </>
-      }
-      />
-      <Route path={'articles/:articleId'} element={
-        <>
-          <Article/>
-          {activeModal === 'basket' && <Basket/>}
-        </>
-      }/>
-    </Routes>
-
+    <>
+      <Routes>
+        <Route path={'/'} element={<Main/>}
+        />
+        <Route path={'articles/:articleId'} element={<Article/>}/>
+      </Routes>
+      {activeModal === 'basket' && <Basket/>}
+    </>
   );
 }
 
