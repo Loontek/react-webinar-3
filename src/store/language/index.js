@@ -65,6 +65,22 @@ class Language extends StoreModule {
         close: {
           en: 'Close',
           ru: 'Закрыть'
+        },
+        country: {
+          en: 'Made in',
+          ru: 'Страна произвордитель'
+        },
+        price: {
+          en: 'Price',
+          ru: 'Цена'
+        },
+        edition: {
+          en: 'Edition',
+          ru: 'Год выпуска'
+        },
+        category: {
+          en: 'Category',
+          ru: 'Категория'
         }
       }
     }
