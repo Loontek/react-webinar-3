@@ -1,21 +1,15 @@
-import {memo, useCallback} from 'react';
+import {memo, useContext} from 'react';
 import propTypes from 'prop-types';
-import {numberFormat} from "../../utils";
+import PropTypes from 'prop-types';
+import {numberFormat, translate} from "../../utils";
 import {cn as bem} from "@bem-react/classname";
-import PropTypes from "prop-types";
-import './style.css';
 import {NavLink} from "react-router-dom";
-import useSelector from "../../store/use-selector";
+import {LanguageContext} from "../../store/context";
+import './style.css';
 
 function ItemBasket(props) {
-
   const cn = bem('ItemBasket');
-
-  const select = useSelector(state => ({
-    delete: state.language.variants.delete,
-    units: state.language.variants.units,
-    activeLanguage: state.language.activeLanguage
-  }));
+  const activeLanguage = useContext(LanguageContext)
 
   const callbacks = {
     onRemove: (e) => props.onRemove(props.item._id)
@@ -26,10 +20,8 @@ function ItemBasket(props) {
       {/*<div className={cn('code')}>{props.item._id}</div>*/}
       <div className={cn('title')}>
         <NavLink
-          to={`articles/${props.item._id}`}
-          className={({ isActive }) =>
-            isActive ? cn('link_active') : cn('link')
-          }
+          to={props.link}
+          className={cn('link')}
           onClick={() => props.onOpen()}
         >
           {props.item.title}
@@ -37,9 +29,9 @@ function ItemBasket(props) {
       </div>
       <div className={cn('right')}>
         <div className={cn('cell')}>{numberFormat(props.item.price)} ₽</div>
-        <div className={cn('cell')}>{numberFormat(props.item.amount || 0)} {select.units[select.activeLanguage]}</div>
+        <div className={cn('cell')}>{numberFormat(props.item.amount || 0)} {translate('units', activeLanguage)}</div>
         <div className={cn('cell')}>
-          <button onClick={callbacks.onRemove}>{select.delete[select.activeLanguage]}</button><
+          <button onClick={callbacks.onRemove}>{translate('delete', activeLanguage)}</button><
         /div>
       </div>
     </div>
@@ -53,7 +45,9 @@ ItemBasket.propTypes = {
     price: PropTypes.number,
     amount: PropTypes.number
   }).isRequired,
+  link: propTypes.string,
   onRemove: propTypes.func,
+  onOpen: propTypes.func
 }
 
 ItemBasket.defaultProps = {

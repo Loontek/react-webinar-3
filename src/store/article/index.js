@@ -13,7 +13,7 @@ class Article extends StoreModule {
   }
 
   async load(id) {
-    const response = await fetch(`/api/v1/articles/${id}`);
+    const response = await fetch(`/api/v1/articles/${id}?fields=*,madeIn(title,code),category(title)`);
     const json = await response.json();
     this.setState({
       ...this.getState(),
@@ -23,36 +23,17 @@ class Article extends StoreModule {
         title: json.result.title,
         description: json.result.description,
         price: json.result.price,
-        edition: json.result.edition
+        edition: json.result.edition,
+        country: json.result.madeIn.title,
+        category: json.result.category.title
       }
     }, 'Загружен товар из АПИ');
 
-    this.loadCountry(json.result.madeIn._id);
-    this.loadCategory(json.result.category._id);
-  }
-
-  async loadCountry(id) {
-    const response = await fetch(`/api/v1/countries/${id}`);
-    const json = await response.json();
-    this.setState({
-      ...this.getState(),
-      article: {
-        ...this.getState().article,
-        country: json.result.title
-      }
-    }, 'Загружена страна из АПИ');
-  }
-
-  async loadCategory(id) {
-    const response = await fetch(`/api/v1/categories/${id}`);
-    const json = await response.json();
-    this.setState({
-      ...this.getState(),
-      article: {
-        ...this.getState().article,
-        category: json.result.title
-      }
-    }, 'Загружена категория из АПИ');
+    return {
+        _id: json.result._id,
+        title: json.result.title,
+        price: json.result.price,
+    }
   }
 }
 

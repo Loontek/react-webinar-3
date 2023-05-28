@@ -5,6 +5,7 @@ import ModalLayout from "../../components/modal-layout";
 import BasketTotal from "../../components/basket-total";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
+import {translate} from "../../utils";
 
 function Basket() {
 
@@ -14,7 +15,6 @@ function Basket() {
     list: state.basket.list,
     amount: state.basket.amount,
     sum: state.basket.sum,
-    cart: state.language.variants.cart,
     activeLanguage: state.language.activeLanguage
   }));
 
@@ -27,12 +27,17 @@ function Basket() {
 
   const renders = {
     itemBasket: useCallback((item) => {
-      return <ItemBasket item={item} onRemove={callbacks.removeFromBasket} onOpen={callbacks.closeModal}/>
+      return <ItemBasket
+        item={item}
+        onRemove={callbacks.removeFromBasket}
+        link={`articles/${item._id}`}
+        onOpen={callbacks.closeModal}
+      />
     }, [callbacks.removeFromBasket]),
   };
 
   return (
-    <ModalLayout title={select.cart[select.activeLanguage]} onClose={callbacks.closeModal}>
+    <ModalLayout title={translate('cart', select.activeLanguage)} onClose={callbacks.closeModal}>
       <List list={select.list} renderItem={renders.itemBasket}/>
       <BasketTotal sum={select.sum}/>
     </ModalLayout>

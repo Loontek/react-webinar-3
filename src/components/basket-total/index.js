@@ -1,21 +1,17 @@
-import {memo} from "react";
+import {memo, useContext} from "react";
 import PropTypes from 'prop-types';
 import {cn as bem} from '@bem-react/classname';
-import {numberFormat} from "../../utils";
+import {numberFormat, translate} from "../../utils";
+import {LanguageContext} from "../../store/context";
 import './style.css';
-import useSelector from "../../store/use-selector";
 
 function BasketTotal({sum}) {
   const cn = bem('BasketTotal');
-
-  const select = useSelector(state => ({
-    total: state.language.variants.total,
-    activeLanguage: state.language.activeLanguage
-  }));
+  const activeLanguage = useContext(LanguageContext)
 
   return (
     <div className={cn()}>
-      <span className={cn('cell')}>{select.total[select.activeLanguage]}</span>
+      <span className={cn('cell')}>{translate('total', activeLanguage)}</span>
       <span className={cn('cell')}> {numberFormat(sum)} ₽</span>
       <span className={cn('cell')}></span>
     </div>

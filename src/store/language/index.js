@@ -9,8 +9,7 @@ class Language extends StoreModule {
 
   initState() {
     return {
-      activeLanguage: 'ru',
-      variants: locales
+      activeLanguage: 'ru'
     }
   }
 

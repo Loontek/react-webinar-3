@@ -1,3 +1,5 @@
+import locales from "./locales";
+
 /**
  * Плюрализация
  * Возвращает вариант с учётом правил множественного числа под указанную локаль
@@ -70,4 +72,8 @@ export function createPages(pagesCount, currentPage) {
   }
 
   return pages;
+}
+
+export function translate(code, lang) {
+  return locales[code][lang]
 }

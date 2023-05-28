@@ -1,46 +1,27 @@
-import {memo} from "react";
+import {memo, useContext} from "react";
 import PropTypes from 'prop-types';
 import {cn as bem} from '@bem-react/classname';
-import {numberFormat, plural} from "../../utils";
+import {numberFormat, plural, translate} from "../../utils";
+import {LanguageContext} from "../../store/context";
 import './style.css';
-import {NavLink} from "react-router-dom";
-import useSelector from "../../store/use-selector";
 
-function BasketTool({sum, amount, onOpen, onLangChange}) {
+function BasketTool({sum, amount, onOpen}) {
   const cn = bem('BasketTool');
-
-  const select = useSelector(state => ({
-      product: state.language.variants.product,
-      inCart: state.language.variants.inCart,
-      main: state.language.variants.main,
-      empty: state.language.variants.empty,
-      goToCart: state.language.variants.goToCart,
-      activeLanguage: state.language.activeLanguage
-  }))
+  const activeLanguage = useContext(LanguageContext)
 
   return (
     <div className={cn()}>
-      <NavLink
-        to={'/'}
-        className={cn('link')}
-      >
-        {select.main[select.activeLanguage]}
-      </NavLink>
-      <div className={cn('language')}>
-        <button type={"button"} onClick={() => onLangChange('en')}>EN</button>
-        <button type={"button"} onClick={() => onLangChange('ru')}>RU</button>
-      </div>
-      <span className={cn('label')}>{select.inCart[select.activeLanguage]}:</span>
+      <span className={cn('label')}>{translate('inCart', activeLanguage)}:</span>
       <span className={cn('total')}>
         {amount
           ? `${amount} ${plural(amount, {
-            one: select.product[select.activeLanguage].one,
-            few: select.product[select.activeLanguage].few,
-            many: select.product[select.activeLanguage].many})} / ${numberFormat(sum)} ₽`
-          : select.empty[select.activeLanguage]
+            one: translate('product', activeLanguage).one,
+            few: translate('product', activeLanguage).few,
+            many: translate('product', activeLanguage).many})} / ${numberFormat(sum)} ₽`
+          : translate('empty', activeLanguage)
         }
       </span>
-      <button onClick={onOpen}>{select.goToCart[select.activeLanguage]}</button>
+      <button onClick={onOpen}>{translate('goToCart', activeLanguage)}</button>
     </div>
   );
 }

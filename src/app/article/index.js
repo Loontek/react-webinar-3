@@ -6,6 +6,9 @@ import BasketTool from "../../components/basket-tool";
 import PageLayout from "../../components/page-layout";
 import ArticleInfo from "../../components/article-info";
 import {useParams} from "react-router-dom";
+import RowLayout from "../../components/row-layout";
+import Navigation from "../../components/navigation";
+import LanguageSwitch from "../../components/language-switch";
 
 function Article() {
   const params = useParams();
@@ -21,8 +24,7 @@ function Article() {
 
   useEffect(() => {
     store.actions.article.load(params.articleId);
-    store.actions.catalog.load(select.activePage);
-  }, []);
+  }, [params]);
 
   const callbacks = {
     // Добавление в корзину
@@ -36,12 +38,15 @@ function Article() {
   return (
     <PageLayout>
       <Head title={select.article.title}/>
-      <BasketTool
-        onOpen={callbacks.openModalBasket}
-        onLangChange={callbacks.changeLanguage}
-        amount={select.amount}
-        sum={select.sum}
-      />
+      <RowLayout>
+        <Navigation />
+        <LanguageSwitch onLangChange={callbacks.changeLanguage} />
+        <BasketTool
+          onOpen={callbacks.openModalBasket}
+          amount={select.amount}
+          sum={select.sum}
+        />
+      </RowLayout>
       <ArticleInfo article={select.article} onAdd={callbacks.addToBasket}/>
     </PageLayout>
   );
