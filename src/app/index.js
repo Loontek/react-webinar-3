@@ -10,6 +10,7 @@ import Article from "./article";
  * @returns {React.ReactElement}
  */
 function App() {
+  // Для коммита
 
   const activeModal = useSelector(state => state.modals.name);
 
