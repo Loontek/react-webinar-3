@@ -33,3 +33,45 @@ export function codeGenerator(start = 0) {
 export function numberFormat(value, locale = 'ru-RU', options = {}) {
   return new Intl.NumberFormat(locale, options).format(value);
 }
+
+/**
+ * Создание структуры категорий
+ * @param categories {Array}
+ * @returns {Array}
+ */
+export const createCategories = (categories) => {
+  const newCategories = []
+
+  categories.forEach(category => {
+    const childrens = categories.filter(children => category._id === children.parent?._id)
+
+    if(!category.parent) {
+      newCategories.push({
+        value: category._id,
+        title: category.title
+      })
+
+      if(childrens) {
+        childrens.forEach(children => {
+          newCategories.push({
+            value: children._id,
+            title: '- ' + children.title
+          })
+
+          const grandChildrens = categories.filter(grandChildren => children._id === grandChildren.parent?._id)
+
+          if(grandChildrens) {
+            grandChildrens.forEach(grandChildren => {
+              newCategories.push({
+                value: grandChildren._id,
+                title: '-- ' + grandChildren.title
+              })
+            })
+          }
+        })
+      }
+    }
+  })
+
+  return newCategories
+}
