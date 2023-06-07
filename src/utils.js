@@ -66,7 +66,19 @@ export const createCategories = (categories) => {
                 value: grandChildren._id,
                 title: '-- ' + grandChildren.title
               })
+
+            const grandGrandChildrens = categories.filter(grandGrandChildren => grandChildren._id === grandGrandChildren.parent?._id)
+
+            if(grandGrandChildrens) {
+              grandGrandChildrens.forEach(grandGrandChildren => {
+                newCategories.push({
+                  value: grandGrandChildren._id,
+                  title: '--- ' + grandGrandChildren.title
+                })
+              })
+            }
             })
+
           }
         })
       }
